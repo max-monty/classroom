@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(resolve(__dirname, "../build")));
 
+// TODO: Set up sequelize connection to database
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
