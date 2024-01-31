@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import './App.css';
+import axios from 'axios';
 
 function App() {
   const [studentName, setStudentName] = useState('');
   const [students, setStudents] = useState([]);
   const [groupSize, setGroupSize] = useState(2);
   const [groups, setGroups] = useState([]);
+  const [course, setCourse] = useState('');
+  const [courses, setCourses] = useState(['Course 1', 'Course 2', 'Course 3']);
 
   const handleStudentNameChange = (event) => {
     setStudentName(event.target.value);
@@ -15,11 +18,29 @@ function App() {
     setGroupSize(Number(event.target.value));
   };
 
-  const addStudent = () => {
+  const addStudent = async () => {
     if (studentName && !students.includes(studentName)) {
       setStudents([...students, studentName]);
       setStudentName('');
     }
+    try {
+      const response = await axios.post('/api/add-student', {
+        name: studentName,
+        course
+      });
+
+      alert(response.data.message);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handleCourseChange = (event) => {
+    setCourse(event.target.value);
+  };
+
+  const addCourse = (newCourse) => {
+    setCourses([...courses, newCourse]);
   };
 
   const generateGroups = () => {
@@ -43,7 +64,26 @@ function App() {
           onChange={handleStudentNameChange}
           placeholder="Enter student name"
         />
+        <select value={course} onChange={handleCourseChange}>
+          {courses.map((course, index) => (
+            <option key={index} value={course}>
+              {course}
+            </option>
+          ))}
+        </select>
         <button onClick={addStudent}>Add Student</button>
+      </div>
+      <div>
+        <input
+          type="text"
+          placeholder="Enter new course"
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              addCourse(e.target.value);
+              e.target.value = '';
+            }
+          }}
+        />
       </div>
       <div>
         <label>
