@@ -9,14 +9,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 dotenv.config();
-const { Pool } = pg;
+
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static(resolve(__dirname, "../build")));
 
-// TODO: Set up sequelize connection to database
-console.log(process.env.DATABASE_URL);
+const { Pool } = pg;
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
