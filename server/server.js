@@ -5,10 +5,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const app = express();
-app.use(express.json());
-app.use(cors());
 const { Pool } = pg;
 
+app.use(express.json());
+app.use(cors());
+app.use(express.static(path.resolve(__dirname, "../build")));
+
+// TODO: Set up Sequalize
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -32,6 +35,10 @@ app.post('/api/add-student', async (req, res) => {
     }
 });
 
-const port = process.env.PORT || 3001;
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
