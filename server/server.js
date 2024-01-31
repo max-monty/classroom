@@ -2,6 +2,11 @@ import express from 'express';
 import pg from 'pg';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, resolve, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 dotenv.config();
 const app = express();
@@ -9,15 +14,10 @@ const { Pool } = pg;
 
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.resolve(__dirname, "../build")));
+app.use(express.static(resolve(__dirname, "../build")));
 
-// TODO: Set up Sequalize
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
+    connectionString: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false
     }
@@ -36,7 +36,7 @@ app.post('/api/add-student', async (req, res) => {
 });
 
 app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+    res.sendFile(join(__dirname, '../build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3001;
