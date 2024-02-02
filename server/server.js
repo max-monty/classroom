@@ -35,6 +35,15 @@ app.post('/api/add-student', async (req, res) => {
     }
 });
 
+app.get('/api/get-students', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM students');
+        res.status(200).json(result.rows);
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+});
+
 app.get('/*', function (req, res) {
     res.sendFile(join(__dirname, '../build', 'index.html'));
 });
