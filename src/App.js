@@ -6,12 +6,35 @@ import FetchButton from './FetchButton.js';
 import GroupDisplay from './GroupDisplay.js';
 import AddStudentSection from './AddStudentSection.js';
 import AddCourseInput from './AddCourseInput.js';
+import GroupSelector from './GroupSelector.js';
+import ColorRectangle from './ColorRectangle.js';
+
 
 function App() {
   const [groupSize, setGroupSize] = useState(2);
   const [groups, setGroups] = useState([]);
   const [courses, setCourses] = useState([]);
   const [students, setStudents] = useState([]);
+  const [courseSelected, setCourseSelected] = useState(false);
+  const [currentCourse, setCurrentCourse] = useState(null);
+  const [redPercent, setRedPercent] = useState(0);
+  const [greenPercent, setGreenPercent] = useState(100);
+  const [yellowPercent, setYellowPercent] = useState(0);
+
+  const increaseRed = () => {
+    setRedPercent(redPercent + 10);
+    setGreenPercent(greenPercent - 10);
+  };
+
+  const increaseGreen = () => {
+    setGreenPercent(greenPercent + 10);
+    setRedPercent(redPercent - 10);
+  };
+
+  const increaseYellow = () => {
+    setYellowPercent(yellowPercent + 10);
+    setGreenPercent(greenPercent - 10);
+  };
 
   const fetchStudents = async () => {
     try {
@@ -19,6 +42,7 @@ function App() {
       setStudents(response.data);
       const uniqueCourses = [...new Set(response.data.map(student => student.course))];
       setCourses(uniqueCourses);
+      setCourseSelected(false);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -38,7 +62,7 @@ function App() {
   };
 
   const generateGroups = () => {
-    let shuffledStudents = [...students].map(student => student.name).sort(() => 0.5 - Math.random());
+    let shuffledStudents = [...students].filter(student => student.course === currentCourse).map(student => student.name).sort(() => 0.5 - Math.random());
     let generatedGroups = [];
     while (shuffledStudents.length) {
       generatedGroups.push(shuffledStudents.splice(0, groupSize));
@@ -48,23 +72,16 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Student Group Creator</h1>
+      <h1>Mr. Monty's Classroom</h1>
+      <h2>Student Group Creator</h2>
       <FetchButton fetchStudents={fetchStudents} />
-      <StudentList students={students} />
+      <StudentList students={students} courses={courses} courseSelected={courseSelected} setCourseSelected={setCourseSelected} currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />
       <AddStudentSection addStudent={addStudent} courses={courses} />
       <AddCourseInput addCourse={addCourse} />
-      <div>
-        <label>
-          Group Size:
-          <select value={groupSize} onChange={(e) => setGroupSize(Number(e.target.value))}>
-            {[2, 3, 4, 5].map((size) => (
-              <option key={size} value={size}>{size}</option>
-            ))}
-          </select>
-        </label>
-        <button onClick={generateGroups}>Generate Groups</button>
-      </div>
+      <GroupSelector groupSize={groupSize} setGroupSize={setGroupSize} generateGroups={generateGroups} />
       <GroupDisplay groups={groups} />
+      <h2>Cup Tracker</h2>
+      <ColorRectangle redPercent={redPercent} greenPercent={greenPercent} yellowPercent={yellowPercent} increaseRed={increaseRed} increaseGreen={increaseGreen} increaseYellow={increaseYellow} />
     </div>
   );
 }

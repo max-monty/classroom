@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function AddCourseInput({ addCourse }) {
+    const [courseName, setCourseName] = useState('');
+
+    const handleInputChange = (e) => {
+        setCourseName(e.target.value);
+    };
+
+    const handleSubmit = () => {
+        addCourse(courseName);
+        setCourseName('');
+    };
+
     return (
-        <input
-            type="text"
-            placeholder="Enter new course"
-            onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                    addCourse(e.target.value);
-                    e.target.value = '';
-                }
-            }}
-        />
+        <div>
+            <input
+                type="text"
+                placeholder="Enter new course"
+                value={courseName}
+                onChange={handleInputChange}
+            />
+            <button onClick={handleSubmit}>Submit</button>
+        </div>
     );
 }
 

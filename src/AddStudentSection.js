@@ -4,6 +4,12 @@ function AddStudentSection({ addStudent, courses }) {
     const [studentName, setStudentName] = useState('');
     const [course, setCourse] = useState('');
 
+    const handleAddStudent = () => {
+        addStudent(studentName, course);
+        setStudentName('');
+        setCourse('');
+    };
+
     return (
         <div>
             <input
@@ -19,7 +25,7 @@ function AddStudentSection({ addStudent, courses }) {
                     </option>
                 ))}
             </select>
-            <button onClick={() => addStudent(studentName, course)}>Add Student</button>
+            <button onClick={handleAddStudent}>Add Student</button>
         </div>
     );
 }
