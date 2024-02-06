@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { List, ListItem, ListItemText, Button, Box } from '@mui/material';
 
-function StudentList({ students, courses, courseSelected, setCourseSelected }) {
+function StudentList({ students, courses, courseSelected, setCourseSelected, setCurrentCourse }) {
     const [isListVisible, setIsListVisible] = useState(true);
 
     const handleCourseSelect = (course) => {
@@ -10,6 +10,7 @@ function StudentList({ students, courses, courseSelected, setCourseSelected }) {
         } else {
             setIsListVisible(true);
             setCourseSelected(course);
+            setCurrentCourse(course);
         }
     };
 

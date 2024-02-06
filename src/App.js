@@ -10,8 +10,6 @@ import AddCourseInput from './AddCourseInput.js';
 import GroupSelector from './GroupSelector.js';
 import ColorRectangle from './ColorRectangle.js';
 
-// TODO: Added UI styling, broke group selector and course picker
-
 function App() {
   const [groupSize, setGroupSize] = useState(2);
   const [groups, setGroups] = useState([]);
@@ -87,7 +85,7 @@ function App() {
             <StudentList students={students} courses={courses} courseSelected={courseSelected} setCourseSelected={setCourseSelected} currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />
             <AddStudentSection addStudent={addStudent} courses={courses} />
             <AddCourseInput addCourse={addCourse} />
-            <GroupSelector generateGroups={generateGroups} />
+            <GroupSelector generateGroups={generateGroups} groupSize={groupSize} setGroupSize={setGroupSize} />
           </Grid>
           <Grid item xs={6}>
             <ColorRectangle redPercent={redPercent} greenPercent={greenPercent} yellowPercent={yellowPercent} increaseRed={increaseRed} increaseGreen={increaseGreen} increaseYellow={increaseYellow} />

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 
-function GroupSelector({ generateGroups }) {
-    const [groupSize, setGroupSize] = useState(2);
+function GroupSelector({ generateGroups, groupSize, setGroupSize }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
