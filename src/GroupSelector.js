@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { TextField, Button, Box } from '@mui/material';
 
-function GroupSelector({ groupSize, setGroupSize, generateGroups }) {
+function GroupSelector({ generateGroups }) {
+    const [groupSize, setGroupSize] = useState(2);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        generateGroups(groupSize);
+    };
+
     return (
-        <div>
-            <label>
-                Group Size:
-                <select value={groupSize} onChange={(e) => setGroupSize(Number(e.target.value))}>
-                    {[2, 3, 4, 5].map((size) => (
-                        <option key={size} value={size}>{size}</option>
-                    ))}
-                </select>
-            </label>
-            <button onClick={generateGroups}>Generate Groups</button>
-        </div>
+        <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
+            <TextField id="groupSize" label="Group Size" value={groupSize} onChange={(e) => setGroupSize(e.target.value)} />
+            <Button type="submit" variant="contained" color="primary">
+                Generate Groups
+            </Button>
+        </Box>
     );
 }
 

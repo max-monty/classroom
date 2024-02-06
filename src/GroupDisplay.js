@@ -1,19 +1,15 @@
 import React from 'react';
+import { List, ListItem, ListItemText } from '@mui/material';
 
 function GroupDisplay({ groups }) {
     return (
-        <div className="groups">
+        <List>
             {groups.map((group, index) => (
-                <div key={index} className="group">
-                    <h3>Group {index + 1}</h3>
-                    <ul>
-                        {group.map((student, idx) => (
-                            <li key={idx}>{student}</li>
-                        ))}
-                    </ul>
-                </div>
+                <ListItem key={index}>
+                    <ListItemText primary={`Group ${index + 1}`} secondary={group.join(', ')} />
+                </ListItem>
             ))}
-        </div>
+        </List>
     );
 }
 

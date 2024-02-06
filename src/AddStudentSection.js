@@ -1,32 +1,25 @@
 import React, { useState } from 'react';
+import { TextField, Button, Box } from '@mui/material';
 
-function AddStudentSection({ addStudent, courses }) {
-    const [studentName, setStudentName] = useState('');
+function AddStudentSection({ addStudent }) {
+    const [name, setName] = useState('');
     const [course, setCourse] = useState('');
 
-    const handleAddStudent = () => {
-        addStudent(studentName, course);
-        setStudentName('');
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        addStudent(name, course);
+        setName('');
         setCourse('');
     };
 
     return (
-        <div>
-            <input
-                type="text"
-                value={studentName}
-                onChange={(e) => setStudentName(e.target.value)}
-                placeholder="Enter student name"
-            />
-            <select value={course} onChange={(e) => setCourse(e.target.value)}>
-                {courses.map((course, index) => (
-                    <option key={index} value={course}>
-                        {course}
-                    </option>
-                ))}
-            </select>
-            <button onClick={handleAddStudent}>Add Student</button>
-        </div>
+        <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
+            <TextField id="name" label="Name" value={name} onChange={(e) => setName(e.target.value)} />
+            <TextField id="course" label="Course" value={course} onChange={(e) => setCourse(e.target.value)} />
+            <Button type="submit" variant="contained" color="primary">
+                Add Student
+            </Button>
+        </Box>
     );
 }
 

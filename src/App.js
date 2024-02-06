@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import { Container, Typography, Box, Button, Card, Grid } from '@mui/material';
 import StudentList from './StudentList.js';
 import FetchButton from './FetchButton.js';
 import GroupDisplay from './GroupDisplay.js';
@@ -9,6 +10,7 @@ import AddCourseInput from './AddCourseInput.js';
 import GroupSelector from './GroupSelector.js';
 import ColorRectangle from './ColorRectangle.js';
 
+// TODO: Added UI styling, broke group selector and course picker
 
 function App() {
   const [groupSize, setGroupSize] = useState(2);
@@ -71,18 +73,29 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>Mr. Monty's Classroom</h1>
-      <h2>Student Group Creator</h2>
-      <FetchButton fetchStudents={fetchStudents} />
-      <StudentList students={students} courses={courses} courseSelected={courseSelected} setCourseSelected={setCourseSelected} currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />
-      <AddStudentSection addStudent={addStudent} courses={courses} />
-      <AddCourseInput addCourse={addCourse} />
-      <GroupSelector groupSize={groupSize} setGroupSize={setGroupSize} generateGroups={generateGroups} />
-      <GroupDisplay groups={groups} />
-      <h2>Cup Tracker</h2>
-      <ColorRectangle redPercent={redPercent} greenPercent={greenPercent} yellowPercent={yellowPercent} increaseRed={increaseRed} increaseGreen={increaseGreen} increaseYellow={increaseYellow} />
-    </div>
+    <Container>
+      <Box my={4}>
+        <Typography variant="h1" component="h1" gutterBottom>
+          Mr. Monty's Classroom
+        </Typography>
+        <Typography variant="h2" component="h2" gutterBottom>
+          Student Group Creator
+        </Typography>
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <FetchButton fetchStudents={fetchStudents} />
+            <StudentList students={students} courses={courses} courseSelected={courseSelected} setCourseSelected={setCourseSelected} currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />
+            <AddStudentSection addStudent={addStudent} courses={courses} />
+            <AddCourseInput addCourse={addCourse} />
+            <GroupSelector generateGroups={generateGroups} />
+          </Grid>
+          <Grid item xs={6}>
+            <ColorRectangle redPercent={redPercent} greenPercent={greenPercent} yellowPercent={yellowPercent} increaseRed={increaseRed} increaseGreen={increaseGreen} increaseYellow={increaseYellow} />
+            <GroupDisplay groups={groups} />
+          </Grid>
+        </Grid>
+      </Box>
+    </Container>
   );
 }
 

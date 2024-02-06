@@ -1,27 +1,22 @@
 import React, { useState } from 'react';
+import { TextField, Button, Box } from '@mui/material';
 
 function AddCourseInput({ addCourse }) {
-    const [courseName, setCourseName] = useState('');
+    const [course, setCourse] = useState('');
 
-    const handleInputChange = (e) => {
-        setCourseName(e.target.value);
-    };
-
-    const handleSubmit = () => {
-        addCourse(courseName);
-        setCourseName('');
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        addCourse(course);
+        setCourse('');
     };
 
     return (
-        <div>
-            <input
-                type="text"
-                placeholder="Enter new course"
-                value={courseName}
-                onChange={handleInputChange}
-            />
-            <button onClick={handleSubmit}>Submit</button>
-        </div>
+        <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
+            <TextField id="course" label="Course" value={course} onChange={(e) => setCourse(e.target.value)} />
+            <Button type="submit" variant="contained" color="primary">
+                Add Course
+            </Button>
+        </Box>
     );
 }
 

@@ -1,50 +1,42 @@
 import React, { useState } from 'react';
+import { List, ListItem, ListItemText, Button, Box } from '@mui/material';
 
-function StudentList({ students, courses, courseSelected, setCourseSelected, currentCourse, setCurrentCourse }) {
+function StudentList({ students, courses, courseSelected, setCourseSelected }) {
+    const [isListVisible, setIsListVisible] = useState(true);
 
-    const [allStudents, setAllStudents] = useState(false);
-
-    const handleCourseClick = (course) => {
-        setAllStudents(false);
-        if (currentCourse === course) {
-            setCourseSelected(!courseSelected);
-            setCurrentCourse(null)
+    const handleCourseSelect = (course) => {
+        if (course === courseSelected) {
+            setIsListVisible(!isListVisible);
         } else {
-            setCurrentCourse(course);
-            setCourseSelected(true);
+            setIsListVisible(true);
+            setCourseSelected(course);
         }
     };
 
-    const handleAllStudentsClick = () => {
-        setAllStudents(!allStudents);
-        setCurrentCourse(null);
-        allStudents ? setCourseSelected(false) : setCourseSelected(true);
-    }
-
-    const filteredStudents = currentCourse
-        ? students.filter((student) => student.course === currentCourse)
-        : students;
-
     return (
-        <div>
-            {students.length > 0 && (
-                <div>
-                    {courses.map((course) => (
-                        <button key={course} onClick={() => handleCourseClick(course)}>
-                            {course}
-                        </button>
+        <Box>
+            <Box display="flex" flexDirection="row" flexWrap="wrap" gap={2}>
+                {students.length > 0 && (
+                    <Button variant="contained" color={courseSelected === 'All' ? "secondary" : "primary"} onClick={() => handleCourseSelect('All')}>
+                        All Students
+                    </Button>
+                )}
+                {courses.map((course, index) => (
+                    <Button key={index} variant="contained" color={courseSelected === course ? "secondary" : "primary"} onClick={() => handleCourseSelect(course)}>
+                        {course}
+                    </Button>
+                ))}
+            </Box>
+            {isListVisible && (
+                <List>
+                    {(courseSelected === 'All' ? students : students.filter(student => student.course === courseSelected)).map((student, index) => (
+                        <ListItem key={index}>
+                            <ListItemText primary={student.name} secondary={student.course} />
+                        </ListItem>
                     ))}
-                    <button onClick={handleAllStudentsClick}>All Students</button>
-                </div>
+                </List>
             )}
-            {courseSelected && (
-                <div>
-                    {filteredStudents.map((student, index) => (
-                        <p key={index}>{student.name} - {student.course}</p>
-                    ))}
-                </div>
-            )}
-        </div>
+        </Box>
     );
 }
 
