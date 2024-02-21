@@ -1,11 +1,13 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 
 function FetchButton({ fetchStudents }) {
     return (
-        <Button variant="contained" color="primary" onClick={fetchStudents}>
-            Fetch Students
-        </Button>
+        <Box padding={2}>
+            <Button variant="contained" color="primary" onClick={fetchStudents} >
+                Fetch Students
+            </Button>
+        </Box>
     );
 }
 

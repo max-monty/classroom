@@ -11,7 +11,7 @@ function AddCourseInput({ addCourse }) {
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
+        <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off" padding={1}>
             <TextField id="course" label="Course" value={course} onChange={(e) => setCourse(e.target.value)} />
             <Button type="submit" variant="contained" color="primary">
                 Add Course

@@ -13,7 +13,7 @@ function AddStudentSection({ addStudent, courses }) {
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
+        <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off" padding={2}>
             <TextField id="name" label="Name" value={name} onChange={(e) => setName(e.target.value)} fullWidth />
             <FormControl fullWidth>
                 <InputLabel id="course-label">Course</InputLabel>
@@ -32,9 +32,11 @@ function AddStudentSection({ addStudent, courses }) {
                     ))}
                 </Select>
             </FormControl>
-            <Button type="submit" variant="contained" color="primary">
-                Add Student
-            </Button>
+            <Box paddingTop={1}>
+                <Button type="submit" variant="contained" color="primary" >
+                    Add Student
+                </Button>
+            </Box>
         </Box>
     );
 }

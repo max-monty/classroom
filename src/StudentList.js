@@ -16,7 +16,7 @@ function StudentList({ students, courses, courseSelected, setCourseSelected, set
 
     return (
         <Box>
-            <Box display="flex" flexDirection="row" flexWrap="wrap" gap={2}>
+            <Box display="flex" flexDirection="row" flexWrap="nowrap" gap={2} padding={2}>
                 {students.length > 0 && (
                     <Button variant="contained" color={courseSelected === 'All' ? "secondary" : "primary"} onClick={() => handleCourseSelect('All')}>
                         All Students
